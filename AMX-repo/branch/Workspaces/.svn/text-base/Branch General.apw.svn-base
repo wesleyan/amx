@@ -1,0 +1,1051 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Workspace [
+
+<!-- Common Elements -->
+<!ELEMENT Identifier (#PCDATA)>
+<!ELEMENT Comments (#PCDATA)>
+<!ELEMENT CreationDate (#PCDATA)>
+
+<!-- Workspace Elements-->
+<!ELEMENT Workspace ( Identifier,
+               CreateVersion,
+               PJS_File?,
+               PJS_ConvertDate?,
+               PJS_CreateDate?,
+               Comments?,
+               Project*)>
+
+<!ATTLIST Workspace 
+      CurrentVersion CDATA   #REQUIRED> 
+
+<!ELEMENT CreateVersion     (#PCDATA)>
+
+
+<!-- Conversion data only: only included for files converted from the old .pjs database -->
+<!ELEMENT PJS_File (#PCDATA)>
+<!ELEMENT PJS_ConvertDate (#PCDATA)>
+<!ELEMENT PJS_CreateDate (#PCDATA)>
+
+<!ELEMENT Project ( Identifier,
+               Designer?,
+               DealerID?,
+               SalesOrder?,
+               PurchaseOrder?,
+               Comments?,
+               System*)>
+
+<!ELEMENT Designer (#PCDATA)>
+<!ELEMENT DealerID (#PCDATA)>
+<!ELEMENT SalesOrder (#PCDATA)>
+<!ELEMENT PurchaseOrder (#PCDATA)>
+
+
+<!ELEMENT System  (  Identifier,
+                 SysID,
+                 TransSerial?,
+                 TransModem?,
+                 TransTCPIP?,
+                 VirtualNetLinxMasterFlag?,
+                 VNMRestoreIPSettings?,
+                 VNMSystemID?,
+                 VNMIPAddress?,
+                 VNMMaskAddress?,
+                 IsAuthenticationEnabled?,
+                 UserName?,
+                 Password?,
+                 Comments?,
+                 File*)>
+
+<!ATTLIST System
+      IsActive   (true | false)   "false"
+      Platform   (Axcess | Netlinx)   "Axcess"
+      Transport   (Serial | Modem | TCPIP) "Serial">
+
+<!ELEMENT SysID (#PCDATA)>
+<!ELEMENT TransSerial (#PCDATA)>
+<!ELEMENT TransModem (#PCDATA)>
+<!ELEMENT TransTCPIP (#PCDATA)>
+<!ELEMENT VirtualNetLinxMasterFlag (#PCDATA)>
+<!ELEMENT VNMRestoreIPSettings (#PCDATA)>
+<!ELEMENT VNMSystemID (#PCDATA)>
+<!ELEMENT VNMIPAddress (#PCDATA)>
+<!ELEMENT VNMMaskAddress (#PCDATA)>
+<!ELEMENT IsAuthenticationEnabled (#PCDATA)>
+<!ELEMENT UserName (#PCDATA)>
+<!ELEMENT Password (#PCDATA)>
+
+
+<!ELEMENT File ( Identifier,
+               FilePathName,
+               Comments?,
+               DeviceMap*,
+               IRDB*)>
+
+<!ATTLIST File 
+       Type (Source | MasterSrc | Include | Module | AXB | IR | TPD | TP4 | KPD | TKO | AMX_IR_DB | IRN_DB | Other | DUET | TOK | TKN | KPB ) "Other"
+       CompileType (Axcess | Netlinx | None) "None"> 
+
+<!ELEMENT FilePathName	(#PCDATA)>
+                            
+<!ELEMENT DeviceMap (DevName)>
+       <!ATTLIST DeviceMap DevAddr CDATA #REQUIRED>
+
+       <!ELEMENT DevName (#PCDATA)>
+
+<!ELEMENT IRDB    (Property,
+                 DOSName,
+                 UserDBPathName,
+                 Notes)>
+       <!ATTLIST IRDB DBKey CDATA #REQUIRED>
+
+       <!ELEMENT Property (#PCDATA)>
+       <!ELEMENT DOSName (#PCDATA)>
+       <!ELEMENT UserDBPathName (#PCDATA)>
+       <!ELEMENT Notes (#PCDATA)>
+]>
+
+<Workspace CurrentVersion="3.2"><Identifier>Branch General</Identifier>
+<CreateVersion>3.1</CreateVersion>
+<PJS_File></PJS_File>
+<PJS_ConvertDate></PJS_ConvertDate>
+<PJS_CreateDate></PJS_CreateDate>
+<Comments></Comments>
+<Project><Identifier>Branch</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>office-test-506MA</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.125.244:1319:1:Office</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>newamx-mls506ma</Identifier>
+<FilePathName>..\Main Code\newamx-mls506ma.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>DenonDVD-DNV300</Identifier>
+<FilePathName>..\Module\DenonDVD-DNV300.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>DVD1</Identifier>
+<FilePathName>..\Module\DVD1.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>ExtronMLS506MA_mod</Identifier>
+<FilePathName>..\Module\ExtronMLS506MA_mod.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>ExtronMLS506MA_queue_include</Identifier>
+<FilePathName>..\Module\ExtronMLS506MA_queue_include.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>NEC1065_Qmodule_rev</Identifier>
+<FilePathName>..\Module\NEC1065_Qmodule_rev.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>NECConversionModule</Identifier>
+<FilePathName>..\Module\NECConversionModule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>newQmodule</Identifier>
+<FilePathName>..\Module\newQmodule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NP2000VideoProjectorInclude</Identifier>
+<FilePathName>..\Module\NP2000VideoProjectorInclude.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>ProjectorFeedback</Identifier>
+<FilePathName>..\Module\ProjectorFeedback.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>responseQmodule</Identifier>
+<FilePathName>..\Module\responseQmodule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>TouchscreenModule</Identifier>
+<FilePathName>..\Module\TouchscreenModule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>VCR1</Identifier>
+<FilePathName>..\Module\VCR1.LIB</FilePathName>
+<Comments></Comments>
+</File>
+</System>
+</Project>
+<Project><Identifier>AWKS112 Fix</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>AWKS112 old</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.127.96:1319:1:AWKS 112</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>AWKS112_QModule</Identifier>
+<FilePathName>..\..\trunk\Main Code\AWKS112_QModule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>CANONSX7_Qmodule</Identifier>
+<FilePathName>..\..\trunk\Module\CANONSX7_Qmodule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>CANONSX7_queue_include</Identifier>
+<FilePathName>..\..\..\amx tmp\CANONSX7_queue_include.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>DenonDVD-DNV300</Identifier>
+<FilePathName>..\..\..\amx tmp\DenonDVD-DNV300.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>ExtronSystem10VideoSwitchMod</Identifier>
+<FilePathName>..\..\..\amx tmp\ExtronSystem10VideoSwitchMod.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>NEC1065_Qmodule_rev</Identifier>
+<FilePathName>..\..\..\amx tmp\NEC1065_Qmodule_rev.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NEC1065_queue_include</Identifier>
+<FilePathName>..\..\..\amx tmp\NEC1065_queue_include.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NetLinx</Identifier>
+<FilePathName>..\..\..\amx tmp\NetLinx.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>newQmodule</Identifier>
+<FilePathName>..\..\..\amx tmp\newQmodule.axs</FilePathName>
+<Comments></Comments>
+</File>
+</System>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>AWKS112 attempted update</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.127.96:1319:1:AWKS 112</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>AWKS112_QModule</Identifier>
+<FilePathName>..\..\..\amx tmp\awks-112-original\AWKS112_QModule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>CANONSX7_Qmodule</Identifier>
+<FilePathName>..\..\..\amx tmp\awks-112-original\CANONSX7_Qmodule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>CANONSX7_queue_include</Identifier>
+<FilePathName>..\..\..\amx tmp\awks-112-original\CANONSX7_queue_include.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>DenonDVD-DNV300</Identifier>
+<FilePathName>..\..\..\amx tmp\awks-112-original\DenonDVD-DNV300.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>ExtronSystem10VideoSwitchMod</Identifier>
+<FilePathName>..\..\..\amx tmp\awks-112-original\ExtronSystem10VideoSwitchMod.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>NEC1065_Qmodule_rev</Identifier>
+<FilePathName>..\..\..\amx tmp\awks-112-original\NEC1065_Qmodule_rev.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NEC1065_queue_include</Identifier>
+<FilePathName>..\..\..\amx tmp\awks-112-original\NEC1065_queue_include.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NetLinx</Identifier>
+<FilePathName>..\..\..\amx tmp\awks-112-original\NetLinx.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>newQmodule</Identifier>
+<FilePathName>..\..\..\amx tmp\awks-112-original\newQmodule.axs</FilePathName>
+<Comments></Comments>
+</File>
+</System>
+</Project>
+<Project><Identifier>beckham hall</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>beckham-original</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.125.236:1319:1:beckham hall</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>Beckham Hall Master Code</Identifier>
+<FilePathName>..\..\..\amx tmp\beckham-original\Beckham Hall Master Code.axs</FilePathName>
+<Comments></Comments>
+</File>
+</System>
+</Project>
+<Project><Identifier>tst114-original</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>tst114-original</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.125.185:1319:1:tst114</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="Netlinx" Type="Module"><Identifier>DVD-DNV300</Identifier>
+<FilePathName>..\..\..\amx tmp\tst114-original\DVD-DNV300.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>MLS506MA_modrevB</Identifier>
+<FilePathName>..\..\..\amx tmp\tst114-original\MLS506MA_modrevB.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>ModeroDanceEast</Identifier>
+<FilePathName>..\..\..\amx tmp\tst114-original\ModeroDanceEast.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>NEC1065_f</Identifier>
+<FilePathName>..\..\..\amx tmp\tst114-original\NEC1065_f.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NetLinx</Identifier>
+<FilePathName>..\..\..\amx tmp\tst114-original\NetLinx.axi</FilePathName>
+<Comments></Comments>
+</File>
+</System>
+</Project>
+<Project><Identifier>olin-327b</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>olin327b-original</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.126.76:1319:1:olin 327b</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="Netlinx" Type="Module"><Identifier>NEC1065_Qmodule_rev</Identifier>
+<FilePathName>..\..\..\amx tmp\olin327b-original\NEC1065_Qmodule_rev.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NEC1065_queue_include</Identifier>
+<FilePathName>..\..\..\amx tmp\olin327b-original\NEC1065_queue_include.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NetLinx</Identifier>
+<FilePathName>..\..\..\amx tmp\olin327b-original\NetLinx.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>newQmodule</Identifier>
+<FilePathName>..\..\..\amx tmp\olin327b-original\newQmodule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>OLIN327B</Identifier>
+<FilePathName>..\..\..\amx tmp\olin327b-original\OLIN327B.axs</FilePathName>
+<Comments></Comments>
+</File>
+</System>
+</Project>
+<Project><Identifier>AWKS112 focus</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>AWKS112</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.127.96:1319:1:AWKS 112</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="None" Type="Other"><Identifier>ALLOFF</Identifier>
+<FilePathName>..\..\..\amx tmp\awk-112-focus\ALLOFF.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>AWKS112_QModule</Identifier>
+<FilePathName>..\..\..\amx tmp\awk-112-focus\AWKS112_QModule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>CANONSX7_Qmodule</Identifier>
+<FilePathName>..\..\..\amx tmp\awk-112-focus\CANONSX7_Qmodule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>CANONSX7_queue_include</Identifier>
+<FilePathName>..\..\..\amx tmp\awk-112-focus\CANONSX7_queue_include.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>FEEDBACK</Identifier>
+<FilePathName>..\..\..\amx tmp\awk-112-focus\FEEDBACK.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>FUNCTION</Identifier>
+<FilePathName>..\..\..\amx tmp\awk-112-focus\FUNCTION.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>NEC1065_Qmodule_rev</Identifier>
+<FilePathName>..\..\..\amx tmp\awk-112-focus\NEC1065_Qmodule_rev.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NEC1065_queue_include</Identifier>
+<FilePathName>..\..\..\amx tmp\awk-112-focus\NEC1065_queue_include.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NetLinx</Identifier>
+<FilePathName>..\..\..\amx tmp\awk-112-focus\NetLinx.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>newQmodule</Identifier>
+<FilePathName>..\..\..\amx tmp\awk-112-focus\newQmodule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>DenonDVD-DNV300</Identifier>
+<FilePathName>..\..\..\amx tmp\DenonDVD-DNV300.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>ExtronSystem10VideoSwitchMod</Identifier>
+<FilePathName>..\..\..\amx tmp\ExtronSystem10VideoSwitchMod.axs</FilePathName>
+<Comments></Comments>
+</File>
+</System>
+</Project>
+<Project><Identifier>DAC100</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>DAC100</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.125.7:1319:1:DAC100</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="Netlinx" Type="Module"><Identifier>NEC1065_f</Identifier>
+<FilePathName>..\..\trunk\Module\NEC1065_f.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="TKO"><Identifier>VideoSwitch_mod</Identifier>
+<FilePathName>..\..\trunk\Module\VideoSwitch_mod.tko</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>ALLOFF</Identifier>
+<FilePathName>..\..\..\amx tmp\DAC100\ALLOFF.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>CANONSX7_Qmodule</Identifier>
+<FilePathName>..\..\..\amx tmp\DAC100\CANONSX7_Qmodule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>CANONSX7_queue_include</Identifier>
+<FilePathName>..\..\..\amx tmp\DAC100\CANONSX7_queue_include.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>DataSwitch_mod</Identifier>
+<FilePathName>..\..\..\amx tmp\DAC100\DataSwitch_mod.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>DVD1</Identifier>
+<FilePathName>..\..\..\amx tmp\DAC100\DVD1.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>FEEDBACK</Identifier>
+<FilePathName>..\..\..\amx tmp\DAC100\FEEDBACK.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>FINALnewtest</Identifier>
+<FilePathName>..\..\..\amx tmp\DAC100\FINALnewtest.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>FUNCTION</Identifier>
+<FilePathName>..\..\..\amx tmp\DAC100\FUNCTION.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>i!-EmailOut</Identifier>
+<FilePathName>..\..\..\amx tmp\DAC100\i!-EmailOut.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NetLinx</Identifier>
+<FilePathName>..\..\..\amx tmp\DAC100\NetLinx.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>newQmodule</Identifier>
+<FilePathName>..\..\..\amx tmp\DAC100\newQmodule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>SCREEN2</Identifier>
+<FilePathName>..\..\..\amx tmp\DAC100\SCREEN2.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>SystemNumbers</Identifier>
+<FilePathName>..\..\..\amx tmp\DAC100\SystemNumbers.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>VCR1</Identifier>
+<FilePathName>..\..\..\amx tmp\DAC100\VCR1.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>VOL1</Identifier>
+<FilePathName>..\..\..\amx tmp\DAC100\VOL1.LIB</FilePathName>
+<Comments></Comments>
+</File>
+</System>
+</Project>
+<Project><Identifier>DWNY 113</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>DWNY 113</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.126.224:1319:1:DWNY 113</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="None" Type="Other"><Identifier>DVD1</Identifier>
+<FilePathName>..\..\..\amx tmp\DWNY113\DVD1.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>MAIN SOURCE,REV 3 with DVD menu,mhe,Rev 0</Identifier>
+<FilePathName>..\..\..\amx tmp\DWNY113\MAIN SOURCE,REV 3 with DVD menu,mhe,Rev 0.AXS</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>VCR1</Identifier>
+<FilePathName>..\..\..\amx tmp\DWNY113\VCR1.LIB</FilePathName>
+<Comments></Comments>
+</File>
+</System>
+</Project>
+<Project><Identifier>shanklin 107</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+</Project>
+<Project><Identifier>Judd 113</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>Judd 113</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.125.230:1319:1:Judd 113</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="None" Type="Other"><Identifier>ALLOFF</Identifier>
+<FilePathName>..\..\..\amx tmp\judd113\ALLOFF.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>DVD1</Identifier>
+<FilePathName>..\..\..\amx tmp\judd113\DVD1.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>FEEDBACK</Identifier>
+<FilePathName>..\..\..\amx tmp\judd113\FEEDBACK.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>FINALnewtest</Identifier>
+<FilePathName>..\..\..\amx tmp\judd113\FINALnewtest.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>FUNCTION</Identifier>
+<FilePathName>..\..\..\amx tmp\judd113\FUNCTION.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>NEC1065_f</Identifier>
+<FilePathName>..\..\..\amx tmp\judd113\NEC1065_f.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NetLinx</Identifier>
+<FilePathName>..\..\..\amx tmp\judd113\NetLinx.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>SCREEN2</Identifier>
+<FilePathName>..\..\..\amx tmp\judd113\SCREEN2.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>SystemNumbers</Identifier>
+<FilePathName>..\..\..\amx tmp\judd113\SystemNumbers.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>TimeManager_inc</Identifier>
+<FilePathName>..\..\..\amx tmp\judd113\TimeManager_inc.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>VCR1</Identifier>
+<FilePathName>..\..\..\amx tmp\judd113\VCR1.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>VOL1</Identifier>
+<FilePathName>..\..\..\amx tmp\judd113\VOL1.LIB</FilePathName>
+<Comments></Comments>
+</File>
+</System>
+</Project>
+<Project><Identifier>Usdan 114</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>Usdan 114</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.124.244:1319:1:Usdan 114</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="Netlinx" Type="Module"><Identifier>DenonDVD-DNV300</Identifier>
+<FilePathName>..\..\..\amx tmp\usdan 114\DenonDVD-DNV300.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>ExtronMLS506MA_mod</Identifier>
+<FilePathName>..\..\..\amx tmp\usdan 114\ExtronMLS506MA_mod.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>ExtronMLS506MA_queue_include</Identifier>
+<FilePathName>..\..\..\amx tmp\usdan 114\ExtronMLS506MA_queue_include.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>MLS506MAVideoSwitcher</Identifier>
+<FilePathName>..\..\..\amx tmp\usdan 114\MLS506MAVideoSwitcher.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>ModeroDanceEast-copy for 285 Court St</Identifier>
+<FilePathName>..\..\..\amx tmp\usdan 114\ModeroDanceEast-copy for 285 Court St.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>NEC1065_Qmodule_rev</Identifier>
+<FilePathName>..\..\..\amx tmp\usdan 114\NEC1065_Qmodule_rev.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NEC1065_queue_include</Identifier>
+<FilePathName>..\..\..\amx tmp\usdan 114\NEC1065_queue_include.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NetLinx</Identifier>
+<FilePathName>..\..\..\amx tmp\usdan 114\NetLinx.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>newQmodule</Identifier>
+<FilePathName>..\..\..\amx tmp\usdan 114\newQmodule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NP2000VideoProjectorInclude</Identifier>
+<FilePathName>..\..\..\amx tmp\usdan 114\NP2000VideoProjectorInclude.axi</FilePathName>
+<Comments></Comments>
+</File>
+</System>
+</Project>
+<Project><Identifier>pac125</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>pac125</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.125.244:1319:1</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="None" Type="Other"><Identifier>ALLOFF</Identifier>
+<FilePathName>..\..\..\amx tmp\pac125\ALLOFF.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>DataSwitch_mod</Identifier>
+<FilePathName>..\..\..\amx tmp\pac125\DataSwitch_mod.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>DVD1</Identifier>
+<FilePathName>..\..\..\amx tmp\pac125\DVD1.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>FEEDBACK</Identifier>
+<FilePathName>..\..\..\amx tmp\pac125\FEEDBACK.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>FINALnewtest</Identifier>
+<FilePathName>..\..\..\amx tmp\pac125\FINALnewtest.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>FUNCTION</Identifier>
+<FilePathName>..\..\..\amx tmp\pac125\FUNCTION.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>i!-EmailOut</Identifier>
+<FilePathName>..\..\..\amx tmp\pac125\i!-EmailOut.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>NEC1065_f</Identifier>
+<FilePathName>..\..\..\amx tmp\pac125\NEC1065_f.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NetLinx</Identifier>
+<FilePathName>..\..\..\amx tmp\pac125\NetLinx.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>SCREEN2</Identifier>
+<FilePathName>..\..\..\amx tmp\pac125\SCREEN2.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>SystemNumbers</Identifier>
+<FilePathName>..\..\..\amx tmp\pac125\SystemNumbers.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>TimeManager_inc</Identifier>
+<FilePathName>..\..\..\amx tmp\pac125\TimeManager_inc.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>VCR1</Identifier>
+<FilePathName>..\..\..\amx tmp\pac125\VCR1.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>VOL1</Identifier>
+<FilePathName>..\..\..\amx tmp\pac125\VOL1.LIB</FilePathName>
+<Comments></Comments>
+</File>
+</System>
+</Project>
+<Project><Identifier>Usdan 108</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>Usdan 108</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.127.242:1319:1:Usdan 108</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+</System>
+</Project>
+<Project><Identifier>PAC 421</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>PAC 421</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.124.111:1319:1:PAC 421</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>Modero7500General Code_revB</Identifier>
+<FilePathName>..\..\..\amx tmp\PAC 421\Modero7500General Code_revB.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>NEC1065_f</Identifier>
+<FilePathName>..\..\..\amx tmp\PAC 421\NEC1065_f.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NetLinx</Identifier>
+<FilePathName>..\..\..\amx tmp\PAC 421\NetLinx.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>VCR1</Identifier>
+<FilePathName>..\..\..\amx tmp\PAC 421\VCR1.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>VideoSwitch_mod</Identifier>
+<FilePathName>..\..\..\amx tmp\PAC 421\VideoSwitch_mod.axs</FilePathName>
+<Comments></Comments>
+</File>
+</System>
+</Project>
+<Project><Identifier>Pac 421 New</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+<System IsActive="true" Platform="Netlinx" Transport="TCPIP"><Identifier>Pac 421</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.124.111:1319:1:PAC 421</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="Netlinx" Type="Module"><Identifier>DenonDVD-DNV300</Identifier>
+<FilePathName>..\..\g4_classrooms\modules\DenonDVD-DNV300.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>ExtronMLS506MA_mod</Identifier>
+<FilePathName>..\..\g4_classrooms\modules\ExtronMLS506MA_mod.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>ExtronSystem10Include</Identifier>
+<FilePathName>..\..\g4_classrooms\modules\ExtronSystem10Include.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>NEC1065_Qmodule_rev</Identifier>
+<FilePathName>..\..\g4_classrooms\modules\NEC1065_Qmodule_rev.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>NECConversionModule</Identifier>
+<FilePathName>..\..\g4_classrooms\modules\NECConversionModule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>newQmodule</Identifier>
+<FilePathName>..\..\g4_classrooms\modules\newQmodule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NP2000VideoProjectorInclude</Identifier>
+<FilePathName>..\..\g4_classrooms\modules\NP2000VideoProjectorInclude.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>ProjectorFeedback</Identifier>
+<FilePathName>..\..\g4_classrooms\modules\ProjectorFeedback.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>TouchscreenModule</Identifier>
+<FilePathName>..\..\g4_classrooms\modules\TouchscreenModule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>VCR1</Identifier>
+<FilePathName>..\..\g4_classrooms\modules\VCR1.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>pac 421</Identifier>
+<FilePathName>..\..\g4_classrooms\PAC 421\pac 421.axs</FilePathName>
+<Comments></Comments>
+</File>
+</System>
+</Project>
+<Project><Identifier>ESC405</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>ESC405</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.125.46:1319:1:ESC405</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="None" Type="Other"><Identifier>ALLOFF</Identifier>
+<FilePathName>..\..\..\amx tmp\ESC405\ALLOFF.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>DataSwitch_mod</Identifier>
+<FilePathName>..\..\..\amx tmp\ESC405\DataSwitch_mod.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>DVD1</Identifier>
+<FilePathName>..\..\..\amx tmp\ESC405\DVD1.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>FEEDBACK</Identifier>
+<FilePathName>..\..\..\amx tmp\ESC405\FEEDBACK.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>FINALnewtest</Identifier>
+<FilePathName>..\..\..\amx tmp\ESC405\FINALnewtest.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>FUNCTION</Identifier>
+<FilePathName>..\..\..\amx tmp\ESC405\FUNCTION.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>G3withoutTP</Identifier>
+<FilePathName>..\..\..\amx tmp\ESC405\G3withoutTP.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>i!-EmailOut</Identifier>
+<FilePathName>..\..\..\amx tmp\ESC405\i!-EmailOut.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>NEC1065_f</Identifier>
+<FilePathName>..\..\..\amx tmp\ESC405\NEC1065_f.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>NetLinx</Identifier>
+<FilePathName>..\..\..\amx tmp\ESC405\NetLinx.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>SCREEN2</Identifier>
+<FilePathName>..\..\..\amx tmp\ESC405\SCREEN2.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>SystemNumbers</Identifier>
+<FilePathName>..\..\..\amx tmp\ESC405\SystemNumbers.axi</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>VCR1</Identifier>
+<FilePathName>..\..\..\amx tmp\ESC405\VCR1.LIB</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>VideoSwitch_mod</Identifier>
+<FilePathName>..\..\..\amx tmp\ESC405\VideoSwitch_mod.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>VOL1</Identifier>
+<FilePathName>..\..\..\amx tmp\ESC405\VOL1.LIB</FilePathName>
+<Comments></Comments>
+</File>
+</System>
+</Project>
+<Project><Identifier>ESC 339</Identifier>
+<Designer></Designer>
+<DealerID></DealerID>
+<SalesOrder></SalesOrder>
+<PurchaseOrder></PurchaseOrder>
+<Comments></Comments>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>ESC 339</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.127.199:1319:1:ESC339</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+</System>
+</Project>
+</Workspace>

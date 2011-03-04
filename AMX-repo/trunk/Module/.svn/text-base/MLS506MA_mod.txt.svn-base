@@ -1,0 +1,114 @@
+Module Name = MLS506MASwitch_mod
+
+MLS-506 MA AV Inputs*:
+Input 1-3 Composite video, for VCR(Input 1), DVD(Input 2), Aux Video(Input 3) 
+Inputs 4-6 RGB Video, PC(Input 4) , MAC (Input 5), Laptop(Input 6)
+Input 7 is Aux/Mix audio only.
+
+*These inputs follow the convention set during the first installation of this device in TST114
+
+Four Modules:
+
+Module 1: Video & Panel Lock - vdvVSMod
+-----------------------------
+Input Channels:
+~1-7: Switch to respective source(1-7) with both Audio and Video
+11-16: Switch to respective source(1-6) with VIDEO ONLY(No video on input 7)
+21-27: Switch to respective source(1-7) with AUDIO ONLY.
+30-35: Set video signal type for inputs 1-3(0=YUV,1=Vid) 30-32= YUV for 1-3, 33-35 = Vid for 1-3
+
+40:Enable "Executive Mode"-Lock Front Panel adjustments
+41:Disable Executive Mode-Unlock Front Panel adjustments
+
+50-60: RGB Delay Time(0 for 0.0 seconds, 60 for 5.0 seconds, .5 second increments)
+	Also use a DEVLEV of range 0 to 10, anything outside the range has no effect. 
+
+Feedback Channels:
+
+--> 111-116: video source selected
+--> 121-127: audio source selected
+
+//	100: Video Type Feedback for Input 1-YUV
+//	101: VIdeo Type Feedback for Input 1-Vid
+//	102: Video Type Feedback for Input 2-YUV
+//	103: Video Type Feedback for Input 2-Vid
+//	104: Video Type Feedback for Input 3-YUV
+//	105: Video Type Feedback for Input 3-Vid
+//	111: Active Feedback for Input 1
+//	112: Active Feedback for Input 2
+//	113: Active Feedback for Input 3
+//	114: Active Feedback for Input 4
+//	115: Active Feedback for Input 5
+//	116: Active Feedback for Input 6
+//	117: Active Feedback for Input 7
+//	120: Executive Mode ON Feedback
+//	121: Executive Mode OFF Feedback
+	Also, DEVLEV from 0-5 will accomplish the same tasks when the level is read. Any level outside of 0-5 will not cause anything to happen.
+
+	
+Module 2: Audio GAIN/Attenuation
+----------------------------------
+Input Channels:
+1-101: Set current input's audio gain to a specific level
+	Also corresponds to a DEVLEV of 0-100 where 100 is the max gain.
+203: Increase audio gain level by 5
+204: Decrease audio gain level by 5
+
+Feedback Channels:
+DEVLEV: AudioGain(1-7): View audio gain for channels(1-7). Each input has a specific Audio gain DEVLEV assigned to it.
+102-202: Sets the channel ON for range of current audio bass step.(0-100)
+
+
+Module 3: Audio TREBLE 
+-----------------------
+Input Channels:
+1-15: Set current input's audio treble to a specific level
+	Also corresponds to a DEVLEV of 0-100 where 100 is the max treble.
+203: Increase audio treble of current input by +2dB
+204: Decrease audio treble of current input by -2dB
+
+Feedback Channels:
+DEVLEV: AudioTreble(1-7): View audio treble for channels(1-7). Each input has a specific Audio treble DEVLEV assigned to it.
+101-115: Sets the channel ON for range of current audio treble step.(0-100)
+
+
+
+Module 4: Audio BASS
+--------------------
+Input Channels:
+0-14: Set current input's audio bass to a specific level
+	Also corresponds to a DEVLEV of 0-14 where 14 is the max bass.
+203: Increase audio bass of current input by 1
+204: Decrease audio bass of current input by 1
+ 
+Feedback Channels:
+DEVLEV: AudioBass(1-7): View audio treble for channels(1-7). Each input has a specific Audio bass DEVLEV assigned to it.
+101-202: Sets the channel ON for range of current audio bass step.(0-100)
+
+
+
+Module 5: Audio Volume  	vdvVolumeMod = 33001:5:0
+----------------------
+Input Channels:
+1-101: Overall output volume
+	DEVLEV AudioLevel range 0-100 controls overall volume.
+102: Increment Volume by 1
+103: Decrement Volume by 1
+
+//104:Mute volume for all fixed and variable inputs.
+//105:Unmute volume for all fixed and variable inputs.
+
+-->105: Mute volume for all fixed and variable inputs.
+-->106: Unmute volume for all fixed and variable inputs.
+
+Feedback Channels:
+
+-->125-225: overall output volume
+-->230: audio mute			//201: Audio Mute Off		
+					//202: Audio Mute On
+
+
+DEVLEV: 0-100 AudioVolume
+
+
+

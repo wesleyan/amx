@@ -1,0 +1,90 @@
+PROGRAM_NAME='FUNCTION'
+(***********************************************************)
+(*               CONSTANT DEFINITIONS GO BELOW             *)
+(***********************************************************)
+DEFINE_CONSTANT
+
+(* !!                                 !! *)
+(* !! DO NOT OVERRIDE THESE CONSTANTS !! *)
+(* !!                                 !! *)
+
+#IF_NOT_DEFINED SYSCALL_MISC
+#DEFINE SYSCALL_MISC
+NO_BUTTON   = 0
+NO_FUNCTION = 256
+#END_IF
+
+#IF_NOT_DEFINED XPORT_CONST
+#DEFINE XPORT_CONST
+PLAY    = 1
+STOP    = 2
+PAUSE   = 3
+FFWD    = 4
+REW     = 5
+SFWD    = 6
+SREV    = 7
+REC     = 8
+#END_IF
+
+#IF_NOT_DEFINED FEEDBACK_CONST
+#DEFINE FEEDBACK_CONST
+PLAY_FB    = 241
+STOP_FB    = 242
+PAUSE_FB   = 243
+FFWD_FB    = 244
+REW_FB     = 245
+SFWD_FB    = 246
+SREV_FB    = 247
+REC_FB     = 248
+#END_IF
+
+(***********************************************************)
+(*             SUBROUTINE DEFINITIONS GO BELOW             *)
+(***********************************************************)
+
+(* causes the deck to pulse a given function and set the feedback *)
+(*   accordingly                                                  *)
+
+#IF_NOT_DEFINED __NETLINX__
+DEFINE_CALL 'FUNCTION' (DECK,FUNCTION,FIRST)
+#END_IF
+#IF_DEFINED __NETLINX__
+DEFINE_CALL 'FUNCTION' (DEV DECK,FUNCTION,FIRST)
+#END_IF
+(* DECK      - device number of vcr control                        *)
+(* FUNCTIONB - function to actuate (PLAY..REC)                     *)
+(* FIRST     - offset for channels:                                *)
+(*             low byte=desired channel for play                   *)
+(*             high byte=desired channel for play feedback         *)
+(*             ex: PLAY located at channel 15, and feedback wanted *)
+(*               to start at channel 210, FIRST=(210*256)+15       *)
+(*             if FIRST=0, channels are at default (PLAY=1,FB=241) *)
+LOCAL_VAR
+    OFFSET_FN
+    OFFSET_FB
+{
+#IF_DEFINED SYSCALL_NOTIFY
+    SEND_STRING 0,"'IN SYSCALL ',39,'FUNCTION',39,' [',__SYSTEM_CALL_NUM__,
+      ']',13,10"
+#END_IF
+
+    (* get offsets if any *)
+    IF (FIRST BAND $00FF)
+        OFFSET_FN=(FIRST BAND $00FF)-PLAY
+    ELSE
+        OFFSET_FN=0
+    IF (FIRST BAND $FF00)
+        OFFSET_FB=((FIRST BAND $FF00)/$FF)-PLAY_FB
+    ELSE
+        OFFSET_FB=0
+
+    SYSTEM_CALL 'ALL OFF' (DECK,FIRST)
+    PULSE [DECK,OFFSET_FN+FUNCTION]
+    SYSTEM_CALL 'FEEDBACK' (DECK,FUNCTION,FIRST)
+}
+
+(***********************************************************)
+(*                     END OF PROGRAM                      *)
+(*        DO NOT PUT ANY CODE BELOW THIS COMMENT           *)
+(***********************************************************)
+

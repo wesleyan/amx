@@ -1,0 +1,492 @@
+PROGRAM_NAME='VCR2'
+(***********************************************************)
+(*               CONSTANT DEFINITIONS GO BELOW             *)
+(***********************************************************)
+DEFINE_CONSTANT
+
+(* !!                                 !! *)
+(* !! DO NOT OVERRIDE THESE CONSTANTS !! *)
+(* !!                                 !! *)
+
+#IF_NOT_DEFINED SYSCALL_MISC
+#DEFINE SYSCALL_MISC
+NO_BUTTON   = 0
+NO_FUNCTION = 256
+#END_IF
+
+#IF_NOT_DEFINED XPORT_CONST
+#DEFINE XPORT_CONST
+PLAY    = 1
+STOP    = 2
+PAUSE   = 3
+FFWD    = 4
+REW     = 5
+SFWD    = 6
+SREV    = 7
+REC     = 8
+#END_IF
+
+#IF_NOT_DEFINED FEEDBACK_CONST
+#DEFINE FEEDBACK_CONST
+PLAY_FB    = 241
+STOP_FB    = 242
+PAUSE_FB   = 243
+FFWD_FB    = 244
+REW_FB     = 245
+SFWD_FB    = 246
+SREV_FB    = 247
+REC_FB     = 248
+#END_IF
+
+(* vcr will go into stop after rewinding for a certain time *)
+#IF_NOT_DEFINED VCR2_REW_TO_STOP
+VCR2_REW_TO_STOP = 1800 (* 3 min *)
+#END_IF
+
+(* vcr will go into stop after search rewinding for a certain time *)
+#IF_NOT_DEFINED VCR2_SREV_TO_STOP
+VCR2_SREV_TO_STOP = 12000 (* 20 min *)
+#END_IF
+
+(* vcr will go into stop after being paused for a certain time *)
+#IF_NOT_DEFINED VCR2_PAUSE_TO_STOP
+VCR2_PAUSE_TO_STOP = 6000 (* 10 min *)
+#END_IF
+
+(* amount of time between pulses when more than 1 command is needed *)
+#IF_NOT_DEFINED VCR2_PULSE_DELAY
+VCR2_PULSE_DELAY = 3
+#END_IF
+
+(* button feedback flag *)
+#IF_NOT_DEFINED VCR2_DEFEAT_FEEDBACK
+VCR2_DEFEAT_FEEDBACK = 0
+#END_IF
+
+(***********************************************************)
+(*             SUBROUTINE DEFINITIONS GO BELOW             *)
+(***********************************************************)
+
+(* controls a deck without discrete searches                 *)
+(* play (or rec) to get out of pause                         *)
+(* use 0 as a button channel if the button doesn't exist     *)
+(* use 256 as a button channel if the function should not be *)
+(*   available to the user                                   *)
+
+#IF_NOT_DEFINED __NETLINX__
+DEFINE_CALL 'VCR2' (DECK,PANEL,PLAYB,STOPB,PAUSEB,FFWDB,REWB,SFWDB,
+  SREVB,RECB,FIRST)
+#END_IF
+#IF_DEFINED __NETLINX__
+DEFINE_CALL 'VCR2' (DEV DECK,DEV PANEL,PLAYB,STOPB,PAUSEB,FFWDB,REWB,SFWDB,
+  SREVB,RECB,FIRST)
+#END_IF
+(* DECK   - device number of vcr control                        *)
+(* PANEL  - control panel device number                         *)
+(* PLAYB  - channel number of play button                       *)
+(* PAUSEB - channel number of pause button                      *)
+(* STOPB  - channel number of stop button                       *)
+(* FWDB   - channel number of ffwd button                       *)
+(* REWB   - channel number of rewind button                     *)
+(* SFWDB  - channel number of search fwd button                 *)
+(* SREVB  - channel number of search rev button                 *)
+(* RECB   - channel number of record button                     *)
+(* FIRST  - offset for channels:                                *)
+(*          low byte=desired channel for play                   *)
+(*          high byte=desired channel for play feedback         *)
+(*          ex: PLAY located at channel 15, and feedback wanted *)
+(*            to start at channel 210, FIRST=(210*256)+15       *)
+(*          if FIRST=0, channels are at default (PLAY=1,FB=241) *)
+LOCAL_VAR
+    OFFSET_FN
+    OFFSET_FB
+{
+#IF_DEFINED SYSCALL_NOTIFY
+    PUSH[PANEL,PLAYB]
+    PUSH[PANEL,STOPB]
+    PUSH[PANEL,PAUSEB]
+    PUSH[PANEL,FFWDB]
+    PUSH[PANEL,REWB]
+    PUSH[PANEL,SFWDB]
+    PUSH[PANEL,SREVB]
+    PUSH[PANEL,RECB]
+    {
+        SEND_STRING 0,"'IN SYSCALL ',39,'VCR2',39,' [',__SYSTEM_CALL_NUM__,
+          ']',13,10"
+    }
+#END_IF
+
+    (* get offsets if any *)
+    IF (FIRST BAND $00FF)
+        OFFSET_FN=(FIRST BAND $00FF)-PLAY
+    ELSE
+        OFFSET_FN=0
+    IF (FIRST BAND $FF00)
+        OFFSET_FB=((FIRST BAND $FF00)/$FF)-PLAY_FB
+    ELSE
+        OFFSET_FB=0
+
+    PUSH[PANEL,PLAYB]
+        IF (![DECK,OFFSET_FB+REC_FB])
+        {
+            CANCEL_WAIT 'VCR2 REW TO STOP'
+            CANCEL_WAIT 'VCR2 PAUSE TO STOP'
+            CANCEL_WAIT 'VCR2 SREV TO STOP'
+            CANCEL_WAIT 'VCR2 DELAY'
+            SYSTEM_CALL 'ALL OFF' (DECK,FIRST)
+#IF_NOT_DEFINED MASTER_BELOW_V330
+            MIN_TO [DECK,OFFSET_FN+PLAY]
+#END_IF
+#IF_DEFINED MASTER_BELOW_V330
+            TO [DECK,OFFSET_FN+PLAY]
+#END_IF
+            SYSTEM_CALL 'FEEDBACK' (DECK,PLAY,FIRST)
+        }
+
+    PUSH[PANEL,STOPB]
+    {
+        CANCEL_WAIT 'VCR2 REW TO STOP'
+        CANCEL_WAIT 'VCR2 PAUSE TO STOP'
+        CANCEL_WAIT 'VCR2 SREV TO STOP'
+        CANCEL_WAIT 'VCR2 DELAY'
+        SYSTEM_CALL 'ALL OFF' (DECK,FIRST)
+#IF_NOT_DEFINED MASTER_BELOW_V330
+        MIN_TO [DECK,OFFSET_FN+STOP]
+#END_IF
+#IF_DEFINED MASTER_BELOW_V330
+        TO [DECK,OFFSET_FN+STOP]
+#END_IF
+        SYSTEM_CALL 'FEEDBACK' (DECK,STOP,FIRST)
+    }
+
+    PUSH[PANEL,PAUSEB]
+        SELECT
+        {
+            ACTIVE ([DECK,OFFSET_FB+PAUSE_FB]
+              AND [DECK,OFFSET_FB+REC_FB]
+              AND RECB<NO_FUNCTION):
+            {
+                CANCEL_WAIT 'VCR2 REW TO STOP'
+                CANCEL_WAIT 'VCR2 PAUSE TO STOP'
+                CANCEL_WAIT 'VCR2 SREV TO STOP'
+                CANCEL_WAIT 'VCR2 DELAY'
+                SYSTEM_CALL 'ALL OFF' (DECK,FIRST)
+#IF_NOT_DEFINED MASTER_BELOW_V330
+                MIN_TO [DECK,OFFSET_FN+REC]
+#END_IF
+#IF_DEFINED MASTER_BELOW_V330
+                TO [DECK,OFFSET_FN+REC]
+#END_IF
+                SYSTEM_CALL 'FEEDBACK' (DECK,REC,FIRST)
+            }
+            ACTIVE ([DECK,OFFSET_FB+PAUSE_FB]
+              AND PLAYB<NO_FUNCTION):
+            {
+                CANCEL_WAIT 'VCR2 REW TO STOP'
+                CANCEL_WAIT 'VCR2 PAUSE TO STOP'
+                CANCEL_WAIT 'VCR2 SREV TO STOP'
+                CANCEL_WAIT 'VCR2 DELAY'
+                SYSTEM_CALL 'ALL OFF' (DECK,FIRST)
+#IF_NOT_DEFINED MASTER_BELOW_V330
+                MIN_TO [DECK,OFFSET_FN+PLAY]
+#END_IF
+#IF_DEFINED MASTER_BELOW_V330
+                TO [DECK,OFFSET_FN+PLAY]
+#END_IF
+                SYSTEM_CALL 'FEEDBACK' (DECK,PLAY,FIRST)
+            }
+            ACTIVE ([DECK,OFFSET_FB+PLAY_FB]):
+            {
+                CANCEL_WAIT 'VCR2 REW TO STOP'
+                CANCEL_WAIT 'VCR2 PAUSE TO STOP'
+                CANCEL_WAIT 'VCR2 SREV TO STOP'
+                CANCEL_WAIT 'VCR2 DELAY'
+                IF (VCR2_PAUSE_TO_STOP)
+                    WAIT VCR2_PAUSE_TO_STOP 'VCR2 PAUSE TO STOP'
+                        SYSTEM_CALL 'FUNCTION' (DECK,STOP,FIRST)
+                SYSTEM_CALL 'ALL OFF' (DECK,FIRST)
+#IF_NOT_DEFINED MASTER_BELOW_V330
+                MIN_TO [DECK,OFFSET_FN+PAUSE]
+#END_IF
+#IF_DEFINED MASTER_BELOW_V330
+                TO [DECK,OFFSET_FN+PAUSE]
+#END_IF
+                SYSTEM_CALL 'FEEDBACK' (DECK,PAUSE,FIRST)
+            }
+            ACTIVE ([DECK,OFFSET_FB+REC_FB]):
+            {
+                CANCEL_WAIT 'VCR2 REW TO STOP'
+                CANCEL_WAIT 'VCR2 PAUSE TO STOP'
+                CANCEL_WAIT 'VCR2 SREV TO STOP'
+                CANCEL_WAIT 'VCR2 DELAY'
+                IF (VCR2_PAUSE_TO_STOP)
+                    WAIT VCR2_PAUSE_TO_STOP 'VCR2 PAUSE TO STOP'
+                        SYSTEM_CALL 'FUNCTION' (DECK,STOP,FIRST)
+                SYSTEM_CALL 'ALL OFF' (DECK,FIRST)
+#IF_NOT_DEFINED MASTER_BELOW_V330
+                MIN_TO [DECK,OFFSET_FN+PAUSE]
+#END_IF
+#IF_DEFINED MASTER_BELOW_V330
+                TO [DECK,OFFSET_FN+PAUSE]
+#END_IF
+                SYSTEM_CALL 'FEEDBACK' (DECK,PAUSE,FIRST)
+                ON [DECK,OFFSET_FB+REC_FB]
+            }
+        }
+
+    PUSH[PANEL,FFWDB]
+        SELECT
+        {
+            ACTIVE ([DECK,OFFSET_FB+STOP_FB]
+              OR [DECK,OFFSET_FB+FFWD_FB]
+              OR [DECK,OFFSET_FB+REW_FB]):
+            {
+                CANCEL_WAIT 'VCR2 REW TO STOP'
+                CANCEL_WAIT 'VCR2 PAUSE TO STOP'
+                CANCEL_WAIT 'VCR2 SREV TO STOP'
+                CANCEL_WAIT 'VCR2 DELAY'
+                SYSTEM_CALL 'ALL OFF' (DECK,FIRST)
+#IF_NOT_DEFINED MASTER_BELOW_V330
+                MIN_TO [DECK,OFFSET_FN+FFWD]
+#END_IF
+#IF_DEFINED MASTER_BELOW_V330
+                TO [DECK,OFFSET_FN+FFWD]
+#END_IF
+                SYSTEM_CALL 'FEEDBACK' (DECK,FFWD,FIRST)
+            }
+            ACTIVE (SFWDB=NO_BUTTON
+              AND ([DECK,OFFSET_FB+PLAY_FB]
+                OR [DECK,OFFSET_FB+SREV_FB]
+                OR [DECK,OFFSET_FB+SFWD_FB])):
+            {
+                CANCEL_WAIT 'VCR2 REW TO STOP'
+                CANCEL_WAIT 'VCR2 PAUSE TO STOP'
+                CANCEL_WAIT 'VCR2 SREV TO STOP'
+                CANCEL_WAIT 'VCR2 DELAY'
+                SYSTEM_CALL 'ALL OFF' (DECK,FIRST)
+#IF_NOT_DEFINED MASTER_BELOW_V330
+                MIN_TO [DECK,OFFSET_FN+FFWD]
+#END_IF
+#IF_DEFINED MASTER_BELOW_V330
+                TO [DECK,OFFSET_FN+FFWD]
+#END_IF
+                SYSTEM_CALL 'FEEDBACK' (DECK,SFWD,FIRST)
+            }
+            ACTIVE (SFWDB<>NO_BUTTON
+              AND ([DECK,OFFSET_FB+PLAY_FB]
+                OR [DECK,OFFSET_FB+SREV_FB]
+                OR [DECK,OFFSET_FB+SFWD_FB])):
+            {
+                CANCEL_WAIT 'VCR2 REW TO STOP'
+                CANCEL_WAIT 'VCR2 PAUSE TO STOP'
+                CANCEL_WAIT 'VCR2 SREV TO STOP'
+                CANCEL_WAIT 'VCR2 DELAY'
+                SYSTEM_CALL 'FUNCTION' (DECK,STOP,FIRST)
+#IF_NOT_DEFINED MASTER_BELOW_V330
+                WAIT VCR2_PULSE_DELAY+GET_PULSE_TIME 'VCR2 DELAY'
+#END_IF
+#IF_DEFINED MASTER_BELOW_V330
+                WAIT VCR2_PULSE_DELAY+5 'VCR2 DELAY'
+#END_IF
+                    SYSTEM_CALL 'FUNCTION' (DECK,FFWD,FIRST)
+            }
+        }
+
+    PUSH[PANEL,SFWDB]
+        SELECT
+        {
+            ACTIVE ([DECK,OFFSET_FB+PLAY_FB]
+              OR [DECK,OFFSET_FB+SREV_FB]
+              OR [DECK,OFFSET_FB+SFWD_FB]):
+            {
+                CANCEL_WAIT 'VCR2 REW TO STOP'
+                CANCEL_WAIT 'VCR2 PAUSE TO STOP'
+                CANCEL_WAIT 'VCR2 SREV TO STOP'
+                CANCEL_WAIT 'VCR2 DELAY'
+                SYSTEM_CALL 'ALL OFF' (DECK,FIRST)
+#IF_NOT_DEFINED MASTER_BELOW_V330
+                MIN_TO [DECK,OFFSET_FN+FFWD]
+#END_IF
+#IF_DEFINED MASTER_BELOW_V330
+                TO [DECK,OFFSET_FN+FFWD]
+#END_IF
+                SYSTEM_CALL 'FEEDBACK' (DECK,SFWD,FIRST)
+            }
+            ACTIVE ([DECK,OFFSET_FB+STOP_FB]
+              OR [DECK,OFFSET_FB+FFWD_FB]
+              OR [DECK,OFFSET_FB+REW_FB]):
+            {
+                CANCEL_WAIT 'VCR2 REW TO STOP'
+                CANCEL_WAIT 'VCR2 PAUSE TO STOP'
+                CANCEL_WAIT 'VCR2 SREV TO STOP'
+                CANCEL_WAIT 'VCR2 DELAY'
+                SYSTEM_CALL 'FUNCTION' (DECK,PLAY,FIRST)
+#IF_NOT_DEFINED MASTER_BELOW_V330
+                WAIT VCR2_PULSE_DELAY+GET_PULSE_TIME 'VCR2 DELAY'
+#END_IF
+#IF_DEFINED MASTER_BELOW_V330
+                WAIT VCR2_PULSE_DELAY+5 'VCR2 DELAY'
+#END_IF
+                {
+                    PULSE [DECK,OFFSET_FN+FFWD]
+                    SYSTEM_CALL 'FEEDBACK' (DECK,SFWD,FIRST)
+                }
+            }
+        }
+
+    PUSH[PANEL,REWB]
+        SELECT
+        {
+            ACTIVE ([DECK,OFFSET_FB+STOP_FB]
+              OR [DECK,OFFSET_FB+FFWD_FB]
+              OR [DECK,OFFSET_FB+REW_FB]):
+            {
+                CANCEL_WAIT 'VCR2 REW TO STOP'
+                CANCEL_WAIT 'VCR2 PAUSE TO STOP'
+                CANCEL_WAIT 'VCR2 SREV TO STOP'
+                CANCEL_WAIT 'VCR2 DELAY'
+                SYSTEM_CALL 'ALL OFF' (DECK,FIRST)
+#IF_NOT_DEFINED MASTER_BELOW_V330
+                MIN_TO [DECK,OFFSET_FN+REW]
+#END_IF
+#IF_DEFINED MASTER_BELOW_V330
+                TO [DECK,OFFSET_FN+REW]
+#END_IF
+                SYSTEM_CALL 'FEEDBACK' (DECK,REW,FIRST)
+                IF (VCR2_REW_TO_STOP)
+                    WAIT VCR2_REW_TO_STOP 'VCR2 REW TO STOP'
+                        SYSTEM_CALL 'FUNCTION' (DECK,STOP,FIRST)
+            }
+            ACTIVE (SREVB=NO_BUTTON
+              AND ([DECK,OFFSET_FB+PLAY_FB]
+                OR [DECK,OFFSET_FB+SREV_FB]
+                OR [DECK,OFFSET_FB+SFWD_FB])):
+            {
+                CANCEL_WAIT 'VCR2 REW TO STOP'
+                CANCEL_WAIT 'VCR2 PAUSE TO STOP'
+                CANCEL_WAIT 'VCR2 SREV TO STOP'
+                CANCEL_WAIT 'VCR2 DELAY'
+                SYSTEM_CALL 'ALL OFF' (DECK,FIRST)
+#IF_NOT_DEFINED MASTER_BELOW_V330
+                MIN_TO [DECK,OFFSET_FN+REW]
+#END_IF
+#IF_DEFINED MASTER_BELOW_V330
+                TO [DECK,OFFSET_FN+REW]
+#END_IF
+                SYSTEM_CALL 'FEEDBACK' (DECK,SREV,FIRST)
+                IF (VCR2_SREV_TO_STOP)
+                    WAIT VCR2_SREV_TO_STOP 'VCR2 SREV TO STOP'
+                        SYSTEM_CALL 'FUNCTION' (DECK,STOP,FIRST)
+            }
+            ACTIVE (SREVB<>NO_BUTTON
+              AND ([DECK,OFFSET_FB+PLAY_FB]
+                OR [DECK,OFFSET_FB+SREV_FB]
+                OR [DECK,OFFSET_FB+SFWD_FB])):
+            {
+                CANCEL_WAIT 'VCR2 REW TO STOP'
+                CANCEL_WAIT 'VCR2 PAUSE TO STOP'
+                CANCEL_WAIT 'VCR2 SREV TO STOP'
+                CANCEL_WAIT 'VCR2 DELAY'
+                SYSTEM_CALL 'FUNCTION' (DECK,STOP,FIRST)
+#IF_NOT_DEFINED MASTER_BELOW_V330
+                WAIT VCR2_PULSE_DELAY+GET_PULSE_TIME 'VCR2 DELAY'
+#END_IF
+#IF_DEFINED MASTER_BELOW_V330
+                WAIT VCR2_PULSE_DELAY+5 'VCR2 DELAY'
+#END_IF
+                {
+                    SYSTEM_CALL 'FUNCTION' (DECK,REW,FIRST)
+                    IF (VCR2_REW_TO_STOP)
+                        WAIT VCR2_REW_TO_STOP 'VCR2 REW TO STOP'
+                            SYSTEM_CALL 'FUNCTION' (DECK,STOP,FIRST)
+                }
+            }
+        }
+
+    PUSH[PANEL,SREVB]
+        SELECT
+        {
+            ACTIVE ([DECK,OFFSET_FB+PLAY_FB]
+              OR [DECK,OFFSET_FB+SREV_FB]
+              OR [DECK,OFFSET_FB+SFWD_FB]):
+            {
+                CANCEL_WAIT 'VCR2 REW TO STOP'
+                CANCEL_WAIT 'VCR2 PAUSE TO STOP'
+                CANCEL_WAIT 'VCR2 SREV TO STOP'
+                CANCEL_WAIT 'VCR2 DELAY'
+                SYSTEM_CALL 'ALL OFF' (DECK,FIRST)
+#IF_NOT_DEFINED MASTER_BELOW_V330
+                MIN_TO [DECK,OFFSET_FN+REW]
+#END_IF
+#IF_DEFINED MASTER_BELOW_V330
+                TO [DECK,OFFSET_FN+REW]
+#END_IF
+                SYSTEM_CALL 'FEEDBACK' (DECK,SREV,FIRST)
+                IF (VCR2_SREV_TO_STOP)
+                    WAIT VCR2_SREV_TO_STOP 'VCR2 SREV TO STOP'
+                        SYSTEM_CALL 'FUNCTION' (DECK,STOP,FIRST)
+            }
+            ACTIVE ([DECK,OFFSET_FB+STOP_FB]
+              OR [DECK,OFFSET_FB+FFWD_FB]
+              OR [DECK,OFFSET_FB+REW_FB]):
+            {
+                CANCEL_WAIT 'VCR2 REW TO STOP'
+                CANCEL_WAIT 'VCR2 PAUSE TO STOP'
+                CANCEL_WAIT 'VCR2 SREV TO STOP'
+                CANCEL_WAIT 'VCR2 DELAY'
+                SYSTEM_CALL 'FUNCTION' (DECK,PLAY,FIRST)
+#IF_NOT_DEFINED MASTER_BELOW_V330
+                WAIT VCR2_PULSE_DELAY+GET_PULSE_TIME 'VCR2 DELAY'
+#END_IF
+#IF_DEFINED MASTER_BELOW_V330
+                WAIT VCR2_PULSE_DELAY+5 'VCR2 DELAY'
+#END_IF
+                {
+                    PULSE [DECK,OFFSET_FN+REW]
+                    SYSTEM_CALL 'FEEDBACK' (DECK,SREV,FIRST)
+                    IF (VCR2_SREV_TO_STOP)
+                        WAIT VCR2_SREV_TO_STOP 'VCR2 SREV TO STOP'
+                            SYSTEM_CALL 'FUNCTION' (DECK,STOP,FIRST)
+                }
+            }
+        }
+
+    PUSH[PANEL,RECB]
+        IF ([DECK,OFFSET_FB+STOP_FB]
+          OR [DECK,OFFSET_FB+REC_FB])
+        {
+            CANCEL_WAIT 'VCR2 REW TO STOP'
+            CANCEL_WAIT 'VCR2 PAUSE TO STOP'
+            CANCEL_WAIT 'VCR2 SREV TO STOP'
+            CANCEL_WAIT 'VCR2 DELAY'
+            SYSTEM_CALL 'ALL OFF' (DECK,FIRST)
+#IF_NOT_DEFINED MASTER_BELOW_V330
+            MIN_TO [DECK,OFFSET_FN+REC]
+#END_IF
+#IF_DEFINED MASTER_BELOW_V330
+            TO [DECK,OFFSET_FN+REC]
+#END_IF
+            SYSTEM_CALL 'FEEDBACK' (DECK,REC,FIRST)
+        }
+
+
+    IF (!VCR2_DEFEAT_FEEDBACK)
+    {
+        [PANEL,PLAYB]  = [DECK,OFFSET_FB+PLAY_FB]
+        [PANEL,STOPB]  = [DECK,OFFSET_FB+STOP_FB]
+        [PANEL,PAUSEB] = [DECK,OFFSET_FB+PAUSE_FB]
+        [PANEL,FFWDB]  = [DECK,OFFSET_FB+FFWD_FB]
+          OR (SFWDB=NO_BUTTON AND [DECK,OFFSET_FB+SFWD_FB])
+        [PANEL,REWB]   = [DECK,OFFSET_FB+REW_FB]
+          OR (SREVB=NO_BUTTON AND [DECK,OFFSET_FB+SREV_FB])
+        [PANEL,SFWDB]  = [DECK,OFFSET_FB+SFWD_FB]
+        [PANEL,SREVB]  = [DECK,OFFSET_FB+SREV_FB]
+        [PANEL,RECB]   = [DECK,OFFSET_FB+REC_FB]
+          AND ![DECK,OFFSET_FB+PAUSE_FB]
+    }
+}
+
+(***********************************************************)
+(*                     END OF PROGRAM                      *)
+(*        DO NOT PUT ANY CODE BELOW THIS COMMENT           *)
+(***********************************************************)
