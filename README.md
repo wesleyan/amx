@@ -1,4 +1,4 @@
-#Directory Structure for AMX repository #
+#Directory Structure for AMX repository#
 
     Classrooms
         G(3|4)
