@@ -1,3 +1,5 @@
 # AMX Repository #
 
 This repository holds the AMX code base. The original AMX folder is saved in the *old* branch. You can switch branches in github in the upper left corner with *Switch Branches* or use the `git checkout` command to switch branches in your local directory.
+
+The new organized AMX code lives in the *organized* branch. We may consider moving this branch to master at some point in the future.
