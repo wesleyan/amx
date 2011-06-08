@@ -1,4 +1,4 @@
-MODULE_NAME='DenonDVD-DNV300' (dev dv_real,dev vdv_proxy, INTEGER transport_inputs[], INTEGER dvd_menu_nav[])
+MODULE_NAME='DenonDVD-DNV300' (dev dv_real,dev vdv_proxy)
 (***********************************************************)
 (* System Type : NetLinx                                   *)
 (***********************************************************)
@@ -20,6 +20,17 @@ DEFINE_CONSTANT
 
 VOLATILE INTEGER comm_active = 255
 
+VOLATILE INTEGER transport_inputs[]=
+{
+    14,//Play
+    15,//PAUSE
+    16,//Stop
+    17,//search FF
+    18,//search REW
+    19,//skip fwd
+    20 //skip rev
+}
+
 VOLATILE INTEGER TRANSPORT_RC_CODES[]=
 {
     44,//Play
@@ -29,6 +40,17 @@ VOLATILE INTEGER TRANSPORT_RC_CODES[]=
     41,//REW
     246,//skip fwd
     245 //skip rev
+}
+
+VOLATILE INTEGER DVD_MENU_NAV[] =
+{
+    7,  //UP
+    8,  //LEFT	
+    9,  //MENU	
+    10, //RIGHT
+    11, //DOWN
+    12, //ENTER
+    13  //EJECT
 }
 
 VOLATILE INTEGER DVD_MENU_NAV_RC_CODES[] =
@@ -119,6 +141,7 @@ CHANNEL_EVENT[vdv_proxy,transport_inputs]
     {
 	SEND_STRING dv_real,"'[PC,RC,',ITOA(TRANSPORT_RC_CODES[GET_LAST(transport_inputs)]),']',13"
     }
+
 }
 
 CHANNEL_EVENT[vdv_proxy,DVD_MENU_NAV]
@@ -151,3 +174,4 @@ DEFINE_PROGRAM
 (*                     END OF PROGRAM                      *)
 (*        DO NOT PUT ANY CODE BELOW THIS COMMENT           *)
 (***********************************************************)
+
