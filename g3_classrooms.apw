@@ -116,7 +116,7 @@
 <SalesOrder></SalesOrder>
 <PurchaseOrder></PurchaseOrder>
 <Comments></Comments>
-<System IsActive="true" Platform="Netlinx" Transport="TCPIP"><Identifier>fisk305</Identifier>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>fisk305</Identifier>
 <SysID>0</SysID>
 <TransSerial>COM1,38400,8,None,1,None</TransSerial>
 <TransModem>COM1,38400,8,None,1,None</TransModem>
@@ -195,7 +195,7 @@
 <Comments>Module for Video Switcher (extron)</Comments>
 </File>
 </System>
-<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>scie150</Identifier>
+<System IsActive="true" Platform="Netlinx" Transport="TCPIP"><Identifier>scie150</Identifier>
 <SysID>1</SysID>
 <TransSerial>COM1,38400,8,None,1,None</TransSerial>
 <TransModem>COM1,38400,8,None,1,None</TransModem>
@@ -209,7 +209,7 @@
 <UserName></UserName>
 <Password></Password>
 <Comments>Exley Science Center 150</Comments>
-<File CompileType="Netlinx" Type="Source"><Identifier>scie150</Identifier>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>scie150</Identifier>
 <FilePathName>classrooms\scie150.axs</FilePathName>
 <Comments>SCIE150 Main source code</Comments>
 </File>
@@ -225,17 +225,17 @@
 <FilePathName>modules\DenonDVD-DNV300.axs</FilePathName>
 <Comments>Module for Denon DVD player</Comments>
 </File>
+<File CompileType="Netlinx" Type="Module"><Identifier>NecLeft</Identifier>
+<FilePathName>modules\NecLeft.axs</FilePathName>
+<Comments>Module for left NEC PJ</Comments>
+</File>
 <File CompileType="Netlinx" Type="Module"><Identifier>NECmodule</Identifier>
 <FilePathName>modules\NECmodule.axs</FilePathName>
 <Comments>Module for NEC GT5/6000</Comments>
 </File>
-<File CompileType="Netlinx" Type="Module"><Identifier>Proxima</Identifier>
-<FilePathName>modules\Proxima.axs</FilePathName>
-<Comments>Module for Proxima projector</Comments>
-</File>
-<File CompileType="Netlinx" Type="Module"><Identifier>ProximaRight</Identifier>
-<FilePathName>modules\ProximaRight.axs</FilePathName>
-<Comments>Module for Right Proxima projector</Comments>
+<File CompileType="Netlinx" Type="Module"><Identifier>NecRight</Identifier>
+<FilePathName>modules\NecRight.axs</FilePathName>
+<Comments>Module for Right NEC PJ</Comments>
 </File>
 <File CompileType="Netlinx" Type="Module"><Identifier>SonyEVI</Identifier>
 <FilePathName>modules\SonyEVI.axs</FilePathName>

@@ -19,9 +19,9 @@ PROGRAM_NAME='scie150'
 (***********************************************************)
 DEFINE_DEVICE
 //wired devices
-dvProximaLeft     =    5001:1:0
+dvNecLeft     =    5001:1:0
 dvNecCenter       =    5001:2:0
-dvProximaRight    =    5001:3:0
+dvNecRight    =    5001:3:0
 dvLutron          =    5001:4:0
 dvExtron          =    5001:5:0
 dvAudioProc       =    5001:6:0
@@ -47,9 +47,9 @@ dvWolfVision      =    1109:2:0
 
    
 //proxy devices
-vdvProximaLeft         =    33500:1:0
+vdvNecLeft         =    33500:1:0
 vdvNecCenter           =    33501:1:0
-vdvProximaRight        =    33502:1:0
+vdvNecRight        =    33502:1:0
 vdvLutron              =    33503:1:0
 vdvAudioProc           =    33504:1:0
 vdvDvdBooth            =    33505:1:0
@@ -73,10 +73,10 @@ RGB    =    3
 YUV    =    4
 VID    =    5
 
-Dev leftrightproxima[] =
+Dev leftrightnec[] =
 {
-    vdvProximaRight,
-    vdvProximaLeft
+    vdvNecRight,
+    vdvNecLeft
 }
 
 volatile Integer WolfVision[]=
@@ -484,7 +484,7 @@ volatile char projectorfeedbackstatements[11][254] =
     'Projector Unmuted'
 }
 
-volatile integer proximaleftinputs[] = 
+volatile integer NecLeftinputs[] = 
 {
     350,
     351,
@@ -508,7 +508,7 @@ volatile integer necinputs[] =
     378
 }
 
-volatile integer proximarightinputs[] = 
+volatile integer NecRightinputs[] = 
 {
     392,
     393,
@@ -571,14 +571,14 @@ Structure DocumentCamera
 (***********************************************************)
 DEFINE_VARIABLE
 long lTimeArray[1]
-ReadableProjectorStatus ReadableProximaLeft
-ProjectorStatus ProximaLeft
-ReadableProjectorStatus ReadableProximaRight
-ProjectorStatus ProximaRight
+ReadableProjectorStatus ReadableNecLeft
+ProjectorStatus NecLeft
+ReadableProjectorStatus ReadableNecRight
+ProjectorStatus NecRight
 ReadableProjectorStatus ReadableNecCenter
 ProjectorStatus NecCenter
-ProjectorInputs ProximaLeftIns
-ProjectorInputs ProximaRightIns
+ProjectorInputs NecLeftIns
+ProjectorInputs NecRightIns
 ProjectorInputs NecCenterIns
 MatrixInputs Extroninputs
 DocumentCamera wolf
@@ -820,14 +820,14 @@ Define_Call 'ProjectorIns'
     up = 1
     down = 2
     
-    ProximaLeftIns.rgbin             = 1
-    ProximaLeftIns.yuvin             = 2
-    ProximaLeftIns.vidin             = 3
+    NecLeftIns.rgbin             = 1
+    NecLeftIns.yuvin             = 2
+    NecLeftIns.vidin             = 3
     
-    ProximaLeftIns.screen[up]        = {dvRelay,257} 
-    ProximaLeftIns.screen[down]      = {dvRelay,257}
-    ProximaLeftIns.Lift[up]          = {dvRelay,257}    //this projector has no lift
-    ProximaLeftIns.Lift[down]        = {dvRelay,257}
+    NecLeftIns.screen[up]        = {dvRelay,257} 
+    NecLeftIns.screen[down]      = {dvRelay,257}
+    NecLeftIns.Lift[up]          = {dvRelay,257}    //this projector has no lift
+    NecLeftIns.Lift[down]        = {dvRelay,257}
     
     NecCenterIns.rgbin               = 4
     NecCenterIns.yuvin               = 5
@@ -838,14 +838,14 @@ Define_Call 'ProjectorIns'
     NecCenterIns.Lift[up]            = {dvRelay,7}
     NecCenterIns.Lift[down]          = {dvRelay,8}
     
-    ProximaRightIns.rgbin            = 7                                              
-    ProximaRightIns.yuvin            = 8
-    ProximaRightIns.vidin            = 9
+    NecRightIns.rgbin            = 7                                              
+    NecRightIns.yuvin            = 8
+    NecRightIns.vidin            = 9
     
-    ProximaRightIns.Screen[up]       = {dvRelay,257}
-    ProximaRightIns.Screen[down]     = {dvRelay,257}
-    ProximaRightIns.Lift[up]         = {dvRelay,257}
-    ProximaRightIns.Lift[down]       = {dvRelay,257} 
+    NecRightIns.Screen[up]       = {dvRelay,257}
+    NecRightIns.Screen[down]     = {dvRelay,257}
+    NecRightIns.Lift[up]         = {dvRelay,257}
+    NecRightIns.Lift[down]       = {dvRelay,257} 
 
 }
 
@@ -1061,11 +1061,11 @@ lTimeArray[1] = 400
 TIMELINE_CREATE(TL_feedback,lTimeArray,1,TIMELINE_RELATIVE,TIMELINE_REPEAT)
 
 
-Define_Module 'Proxima'   proxleft(dvProximaLeft,vdvProximaLeft)
+Define_Module 'NecLeft'   necl(dvNecLeft,vdvNecLeft)
 Define_Module 'NECmodule' nec(dvNecCenter,vdvNecCenter)
-Define_Module 'Proximaright' proxright(dvProximaRight,vdvProximaRight)
+Define_Module 'NecRight' necr(dvNecRight,vdvNecRight)
 //Define_Module 'MarantzProUI' mdlMarantzPro_APP(vdvDvdFront,dvTPs,nBUTTON_ARRAY)
-Define_Module 'DVD-DNV300' mdldvdDenon(dvDvdFront,vdvDvdFront)
+Define_Module 'DenonDVD-DNV300' mdldvdDenon(dvDvdFront,vdvDvdFront)
 Define_Module 'MarantzProComm' mdlMarantz(dvDVDBooth,vdvDVDBooth)
 Define_Module 'SonyEVI' sony(dvSonyCam,vdvSonyCam)
 
@@ -1213,12 +1213,12 @@ Button_Event[dvTps,239] //fine zoom out
 } 
 Timeline_Event[updatetextwindow]
 {
-    //Send_Command dvTps,"'TEXT1-',ReadableProximaLeft.PowerState"
-    //Send_Command dvTps,"'TEXT2-',ReadableProximaLeft.InputState"
+    //Send_Command dvTps,"'TEXT1-',ReadableNecLeft.PowerState"
+    //Send_Command dvTps,"'TEXT2-',ReadableNecLeft.InputState"
     //Send_Command dvTps,"'TEXT3-',ReadableNecCenter.PowerState" 
     //Send_Command dvTps,"'TEXT4-',ReadableNecCenter.InputState"
-    //Send_Command dvTps,"'TEXT5-',ReadableProximaRight.PowerState"
-    //Send_Command dvTps,"'TEXT6-',ReadableProximaRight.InputState"
+    //Send_Command dvTps,"'TEXT5-',ReadableNecRight.PowerState"
+    //Send_Command dvTps,"'TEXT6-',ReadableNecRight.InputState"
 }
 Timeline_Event[frontvcr]
 {
@@ -1245,19 +1245,19 @@ Channel_Event[vdvNecCenter,projectormoduleresponse]
     }//end on
 }
 
-Channel_Event[vdvProximaLeft,projectormoduleresponse]
+Channel_Event[vdvNecLeft,projectormoduleresponse]
 {
     On:
     {
-        Call 'SetProjectors' (vdvProximaLeft,ProximaLeft,ReadableProximaLeft,get_last(projectormoduleresponse))
+        Call 'SetProjectors' (vdvNecLeft,NecLeft,ReadableNecLeft,get_last(projectormoduleresponse))
     }
 }
 
-Channel_Event[vdvProximaRight,projectormoduleresponse]
+Channel_Event[vdvNecRight,projectormoduleresponse]
 {
     On:
     {
-        Call 'SetProjectors' (vdvProximaRight,ProximaRight,ReadableProximaRight,get_last(projectormoduleresponse))
+        Call 'SetProjectors' (vdvNecRight,NecRight,ReadableNecRight,get_last(projectormoduleresponse))
     }
 }
 //--------------------------------------------------------------------------------------------------------------------
@@ -1306,18 +1306,18 @@ Button_Event[dvTps,pageflipbuttons]
         currentlevel = levellookup[get_last(pageflipbuttons)]
     }
 }
-Button_Event[dvTps,proximaleftinputs]
+Button_Event[dvTps,NecLeftinputs]
 {
     Push:
     {
-        Pulse[vdvProximaLeft,get_last(proximaleftinputs)]
+        Pulse[vdvNecLeft,get_last(NecLeftinputs)]
     }
 }
-Button_Event[dvTps,proximarightinputs]
+Button_Event[dvTps,NecRightinputs]
 {
     Push:
     {
-        Pulse[vdvProximaRight,get_last(proximarightinputs)]
+        Pulse[vdvNecRight,get_last(NecRightinputs)]
     }
 }
 Button_Event[dvTps,necinputs]
@@ -1349,19 +1349,19 @@ Button_Event[dvTps,level2inputs]
     Push:
     {
         
-        //Pulse[vdvProximaRight,1]
-        //Pulse[vdvProximaLeft,1]
+        //Pulse[vdvNecRight,1]
+        //Pulse[vdvNecLeft,1]
         level3index = get_last(level2inputs)
         input = inputlookup[get_last(level2inputs)]
         inputtype = inputtypelookup[get_last(level2inputs)]
-        Call 'ExtronRGBSwitch' (vdvProximaLeft,input,inputtype,ProximaLeftIns,ProximaLeft)
-        Call 'ExtronRGBSwitch' (vdvProximaRight,input,inputtype,ProximaRightIns,ProximaRight)
+        Call 'ExtronRGBSwitch' (vdvNecLeft,input,inputtype,NecLeftIns,NecLeft)
+        Call 'ExtronRGBSwitch' (vdvNecRight,input,inputtype,NecRightIns,NecRight)
         Call 'ExtronAudioSwitch' (input)
-        Call 'ProjPower' (vdvProximaLeft,ProximaLeftIns,ProximaLeft,inputtype)
-        Call 'ProjPower' (vdvProximaRight,ProximaRightIns,ProximaRight,inputtype)
+        Call 'ProjPower' (vdvNecLeft,NecLeftIns,NecLeft,inputtype)
+        Call 'ProjPower' (vdvNecRight,NecRightIns,NecRight,inputtype)
         Send_Command dvTps,"'PPON-',popuppages[get_last(level2inputs)],'2'"
-        ProximaLeft.poppage = popuppages[get_last(level2inputs)]
-        ProximaRight.poppage = popuppages[get_last(level2inputs)]
+        NecLeft.poppage = popuppages[get_last(level2inputs)]
+        NecRight.poppage = popuppages[get_last(level2inputs)]
         Call 'SetFeedback'(button.input.channel,level2inputs)   
     }
 }
@@ -1446,17 +1446,17 @@ Button_Event[dvTPs,level3projectors]
             }
             Case 2:
             {                    
-                Call 'ExtronRGBSwitch'(vdvProximaLeft,input,inputtype,ProximaLeftIns,ProximaLeft)
-                Call 'ProjPower' (vdvProximaLeft,ProximaLeftIns,ProximaLeft,inputtype)
+                Call 'ExtronRGBSwitch'(vdvNecLeft,input,inputtype,NecLeftIns,NecLeft)
+                Call 'ProjPower' (vdvNecLeft,NecLeftIns,NecLeft,inputtype)
                 Send_Command dvTPs,"'TEXT1-',updatetextbox[level3index],10,13"
-                ProximaLeft.poppage = poppage3
+                NecLeft.poppage = poppage3
             }
             Case 3:
             {
-                Call 'ExtronRGBSwitch'(vdvProximaRight,input,inputtype,ProximaRightIns,ProximaRight)
-                Call 'ProjPower' (vdvProximaRight,ProximaRightIns,ProximaRight,inputtype)
+                Call 'ExtronRGBSwitch'(vdvNecRight,input,inputtype,NecRightIns,NecRight)
+                Call 'ProjPower' (vdvNecRight,NecRightIns,NecRight,inputtype)
                 Send_Command dvTPs,"'TEXT3-',updatetextbox[level3index],10,13"
-                ProximaRight.poppage = poppage3
+                NecRight.poppage = poppage3
             }
         }//end switch
     }//end push
@@ -1490,15 +1490,15 @@ Button_Event[dvTps,previewbuttons]
             }
             Case 206:
             {
-                Call 'TouchScreenPreview'(ProximaLeft)
+                Call 'TouchScreenPreview'(NecLeft)
             }
             Case 207:
             {
-                Call 'TouchScreenPreview'(ProximaRight)
+                Call 'TouchScreenPreview'(NecRight)
             }
             Case 208:
             {
-                Call 'TouchScreenPreview'(ProximaLeft)
+                Call 'TouchScreenPreview'(NecLeft)
             }
         }
     }
@@ -1548,8 +1548,8 @@ Button_Event[dvTps,251]
 //turning side screen off
     Push:
     {
-        Pulse[vdvProximaRight,2]
-        Pulse[vdvProximaLeft,2]
+        Pulse[vdvNecRight,2]
+        Pulse[vdvNecLeft,2]
         Send_Command dvTps,"'PAGE-LEVEL1'"
         CoolOnce = 1
     }
@@ -1559,8 +1559,8 @@ Button_Event[dvTps,253]
     Push:
     {
         Pulse[vdvNecCenter,ProjectorOff]
-        Pulse[vdvProximaRight,ProjectorOff]
-        Pulse[vdvProximaLeft,ProjectorOff]
+        Pulse[vdvNecRight,ProjectorOff]
+        Pulse[vdvNecLeft,ProjectorOff]
         Wait 40
         {
             if(NecCenter.CoolingState == 0)
@@ -1693,30 +1693,30 @@ Button_Event[dvTps,202]
 {
     Push:
     {
-        if(ProximaLeft.MuteState)
+        if(NecLeft.MuteState)
         {
-            Pulse[vdvProximaLeft,8]
+            Pulse[vdvNecLeft,8]
         }
         else
         {
-            Pulse[vdvProximaLeft,7]
+            Pulse[vdvNecLeft,7]
         }
-        ProximaLeft.MuteState = Not(ProximaLeft.MuteState)
+        NecLeft.MuteState = Not(NecLeft.MuteState)
     }
 }
 Button_Event[dvTps,203]
 {
     Push:
     {
-        if(ProximaRight.MuteState)
+        if(NecRight.MuteState)
         {
-            Pulse[vdvProximaRight,8]
+            Pulse[vdvNecRight,8]
         }
         else
         {
-            Pulse[vdvProximaRight,7]
+            Pulse[vdvNecRight,7]
         }
-        ProximaRight.MuteState = Not(ProximaRight.MuteState)
+        NecRight.MuteState = Not(NecRight.MuteState)
     }
 }
 Button_Event[dvTps,204]
@@ -1724,17 +1724,17 @@ Button_Event[dvTps,204]
     Push:
     {
         
-        if(ProximaLeft.MuteState)
+        if(NecLeft.MuteState)
         {
-            Pulse[vdvProximaLeft,8]    //turns mute off
-            Pulse[vdvProximaRight,8]
+            Pulse[vdvNecLeft,8]    //turns mute off
+            Pulse[vdvNecRight,8]
         }
         else
         {
-            Pulse[vdvProximaLeft,7]
-            Pulse[vdvProximaRight,7]    //mutes projector
+            Pulse[vdvNecLeft,7]
+            Pulse[vdvNecRight,7]    //mutes projector
         }
-        ProximaLeft.MuteState = Not(ProximaLeft.MuteState)
+        NecLeft.MuteState = Not(NecLeft.MuteState)
      }//end push
 } 
 Button_Event[dvTps,ProgVol4]
@@ -1906,25 +1906,25 @@ TIMELINE_EVENT[TL_feedback]
     
     if(TIME == '02:00:00')
     {
-	pulse[vdvProximaLeft,2]
-	pulse[vdvProximaRight,2]
+	pulse[vdvNecLeft,2]
+	pulse[vdvNecRight,2]
 	pulse[vdvNecCenter,2]    
     }
     
     [dvTPs,201] = (NecCenter.MuteState)
-    [dvTps,202] = (ProximaLeft.MuteState)
-    [dvTps,203] = (ProximaRight.MuteState)
-    [dvTPs,204] = (ProximaLeft.MuteState)
+    [dvTps,202] = (NecLeft.MuteState)
+    [dvTps,203] = (NecRight.MuteState)
+    [dvTPs,204] = (NecLeft.MuteState)
     [dvTps,236] = (ProgVol4Mute)
     [dvTps,233] = (MicVol4Mute)
     //SYSTEM_CALL 'VOL1' (vdvBogusTP,234,235,236,dvProgVol4,1,2,3)
     [dvTps,153] = wolf.BlueNegativeState
     
-    if(((ProximaLeft.PowerState == 0) || (ProximaRight.PowerState == 0)) && (NecCenter.PowerState == 0))
+    if(((NecLeft.PowerState == 0) || (NecRight.PowerState == 0)) && (NecCenter.PowerState == 0))
     {
 	Send_Command dvTPs,"'PPOF-COOLING'"
     }
-    if((ProximaLeft.WarmingState == 0) && (NecCenter.WarmingState == 0) && (ProximaRight.WarmingState == 0))
+    if((NecLeft.WarmingState == 0) && (NecCenter.WarmingState == 0) && (NecRight.WarmingState == 0))
     {
 	Send_Command dvTps,"'PPOF-WARMING'"
     } 
