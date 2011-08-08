@@ -116,7 +116,7 @@
 <SalesOrder></SalesOrder>
 <PurchaseOrder></PurchaseOrder>
 <Comments></Comments>
-<System IsActive="true" Platform="Netlinx" Transport="TCPIP"><Identifier>woodhead_lounge</Identifier>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>woodhead_lounge</Identifier>
 <SysID>45</SysID>
 <TransSerial>COM1,38400,8,None,1,None</TransSerial>
 <TransModem>COM1,38400,8,None,1,None</TransModem>
@@ -177,6 +177,104 @@
 <File CompileType="Netlinx" Type="Module"><Identifier>TouchscreenModule</Identifier>
 <FilePathName>modules\TouchscreenModule.axs</FilePathName>
 <Comments>Touchscreen Module</Comments>
+</File>
+</System>
+<System IsActive="true" Platform="Netlinx" Transport="TCPIP"><Identifier>tst101</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.127.138:1319:1:TST101</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments>TST101</Comments>
+<File CompileType="Netlinx" Type="Module"><Identifier>TouchscreenModule</Identifier>
+<FilePathName>..\..\..\Desktop\imspgm\AMX Classroom Code\g4_classrooms\modules\TouchscreenModule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>DenonDVD-DNV300</Identifier>
+<FilePathName>..\..\amx\Modules\DenonDVD-DNV300.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>tst101</Identifier>
+<FilePathName>classrooms\tst101.axs</FilePathName>
+<Comments>Source code for TST101</Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>ExtronMLS506MA_queue_include</Identifier>
+<FilePathName>includes\ExtronMLS506MA_queue_include.axi</FilePathName>
+<Comments>Queue include for MLS506MA</Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>ExtronMLS506MA_mod</Identifier>
+<FilePathName>modules\ExtronMLS506MA_mod.axs</FilePathName>
+<Comments>Module for Extron MLS 506MA Switcher</Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>NEC1065_Qmodule_rev</Identifier>
+<FilePathName>modules\NEC1065_Qmodule_rev.axs</FilePathName>
+<Comments>Queue module for NEC1065</Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>NECConversionModule</Identifier>
+<FilePathName>modules\NECConversionModule.axs</FilePathName>
+<Comments>Module for NEC RS232 code conversion</Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>newQmodule</Identifier>
+<FilePathName>modules\newQmodule.axs</FilePathName>
+<Comments></Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>ProjectorFeedback</Identifier>
+<FilePathName>modules\ProjectorFeedback.axs</FilePathName>
+<Comments>Projector Feedback module</Comments>
+</File>
+</System>
+<System IsActive="false" Platform="Netlinx" Transport="TCPIP"><Identifier>usdan300</Identifier>
+<SysID>0</SysID>
+<TransSerial>COM1,38400,8,None,1,None</TransSerial>
+<TransModem>COM1,38400,8,None,1,None</TransModem>
+<TransTCPIP>129.133.127.142:1319:1:Usdan 300</TransTCPIP>
+<VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
+<VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
+<VNMSystemID>1</VNMSystemID>
+<VNMIPAddress>10.0.0.1</VNMIPAddress>
+<VNMMaskAddress>255.255.255.0</VNMMaskAddress>
+<IsAuthenticationEnabled>0</IsAuthenticationEnabled>
+<UserName></UserName>
+<Password></Password>
+<Comments></Comments>
+<File CompileType="Netlinx" Type="MasterSrc"><Identifier>usdan300</Identifier>
+<FilePathName>classrooms\usdan300.axs</FilePathName>
+<Comments>Main source file for Daniel Family Commons</Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>crosspoint_queue_include</Identifier>
+<FilePathName>includes\crosspoint_queue_include.axi</FilePathName>
+<Comments>Include file for Extron Crosspoint switcher</Comments>
+</File>
+<File CompileType="None" Type="Include"><Identifier>TechPage</Identifier>
+<FilePathName>includes\TechPage.axi</FilePathName>
+<Comments>Include for TechPage</Comments>
+</File>
+<File CompileType="None" Type="Other"><Identifier>VCR2</Identifier>
+<FilePathName>libs\VCR2.LIB</FilePathName>
+<Comments>Library for VCR</Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>crosspoint_mod</Identifier>
+<FilePathName>modules\crosspoint_mod.axs</FilePathName>
+<Comments>Module for Extron Crosspoint switcher</Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>DenonDVD-DNV300</Identifier>
+<FilePathName>modules\DenonDVD-DNV300.axs</FilePathName>
+<Comments>Module for Denon DNV-300 DVD player</Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>NEC1065_f</Identifier>
+<FilePathName>modules\NEC1065_f.axs</FilePathName>
+<Comments>Module for NEC projectors</Comments>
+</File>
+<File CompileType="Netlinx" Type="Module"><Identifier>newQmodule</Identifier>
+<FilePathName>modules\newQmodule.axs</FilePathName>
+<Comments>Queue module</Comments>
 </File>
 </System>
 </Project>
